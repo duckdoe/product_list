@@ -17,7 +17,7 @@
 }
 
 body {
-  background-color: var(--Rose-50);
+  background-color: var(--Rose-100);
   font-family: "Red Hat Text", sans-serif;
   font-optical-sizing: auto;
 }
@@ -44,6 +44,7 @@ header {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   padding: 0 24px;
+  gap: 16px;
 }
 
 img {
@@ -112,14 +113,42 @@ img {
 
 .cart_container .cart_header {
   color: var(--Red);
+  font-size: 0.95rem;
 }
 
 .cart_container img {
+  width: 100px;
   align-self: center;
+  margin: 32px 0px;
 }
 
 .cart_tagline {
   color: var(--Rose-500);
   font-size: 0.85rem;
   align-self: center;
+}
+
+@media (width > 600px) {
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width > 1000px) {
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (width > 1200px) {
+  .main_container {
+    display: flex;
+  }
+  .cart_container {
+    background-color: var(--Rose-50);
+    width: 420px;
+    height: max-content;
+    padding: 16px;
+    border-radius: 12px;
+  }
 }
