@@ -22,7 +22,9 @@ window.addEventListener("DOMContentLoaded", () => {
                         alt="waffles"
                         class="product_img"
                       />
-                      <button class="js-add-to-cart-button" data-id=${productID(product)}>
+                      <button class="js-add-to-cart-button" data-id=${productID(
+                        product
+                      )}>
                         <img
                           src="assets/images/icon-add-to-cart.svg"
                           alt="Add to cart"
@@ -41,21 +43,30 @@ window.addEventListener("DOMContentLoaded", () => {
     );
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
-        console.log(button)
-        let product = getProduct(products, button)
+        let product = getProduct(products, button);
+        if (cart.includes(getProduct(products, button))) {
+          for (item of cart) {
+            item.amount += 1;
+            displayCart()
+            return;
+          }
+        }
         cart.push(product);
+        for (item of cart) {
+          item.amount = 1;
+        }
         displayCart();
       });
     });
   });
 
   function productID(product) {
-    return product.category.split(' ').join('-')
+    return product.category.split(" ").join("-");
   }
 
   function getProduct(products, button) {
     for (let product of products) {
-      if (product.category.split(' ').join('-') === button.getAttribute("data-id")) return product;
+      if (productID(product) === button.getAttribute("data-id")) return product;
     }
   }
 
@@ -63,7 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const fullCart = document.querySelector(".full_cart");
   const cartItemContainer = document.querySelector(".cart_item_container");
   const itemsLength = document.querySelector(".items_length");
-
+  const total = document.querySelector(".total");
   function displayCart() {
     if (cart.length > 0) {
       fullCart.style.display = "block";
@@ -72,7 +83,12 @@ window.addEventListener("DOMContentLoaded", () => {
       emptyCart.style.display = "flex";
       fullCart.style.display = "none";
     }
-    let html = '';
+    let totalPrice = 0;
+    cart.map((item) => {
+      totalPrice += item.price;
+    });
+    total.textContent = "$" + totalPrice;
+    let html = "";
     cart.forEach((cartItem) => {
       html += `<div class="cart_item">
                 <div class="cart_item_info">
@@ -80,7 +96,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     <span>${cartItem.name}</span>
                   </div>
                   <div class="cart_item_price">
-                    <div class="amount">1x</div>
+                    <div class="amount">${cartItem.amount}x</div>
                     <div class="price">@$5.50</div>
                     <div class="total_price">$${cartItem.price}</div>
                   </div>
@@ -93,7 +109,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 </div>
               </div>
 `;
-      console.log(html);
     });
     cartItemContainer.innerHTML = html;
     itemsLength.textContent = cart.length;
