@@ -42,6 +42,7 @@ window.addEventListener("DOMContentLoaded", () => {
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
         cart.push(getProduct(products, button));
+        console.log(cart);
         displayCart();
       });
     });
@@ -50,7 +51,7 @@ window.addEventListener("DOMContentLoaded", () => {
   function getProduct(products, button) {
     let productCategory = button.getAttribute("data-id");
     for (let product of products) {
-      console.log(product)
+      console.log(product);
       if (product.category === productCategory) return product;
     }
     return null;
@@ -58,6 +59,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const emptyCart = document.querySelector(".empty_cart");
   const fullCart = document.querySelector(".full_cart");
+  const cartItemContainer = document.querySelector(".cart_item_container");
   const itemsLength = document.querySelector(".items_length");
 
   function displayCart() {
@@ -70,15 +72,14 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     let html;
     cart.forEach((cartItem) => {
-      console.log(cartItem)
       html += `<div class="cart_item">
                 <div class="cart_item_info">
                   <div class="cart_item_header">
-                    <span>${cartItem.name}</span>
+                    <span>Classic Tiramisu</span>
                   </div>
                   <div class="cart_item_price">
                     <div class="amount">1x</div>
-                    <div class="price">@$${cartItem.price}</div>
+                    <div class="price">@$5.50</div>
                     <div class="total_price">$5.50</div>
                   </div>
                 </div>
@@ -88,8 +89,10 @@ window.addEventListener("DOMContentLoaded", () => {
                     alt="remove icon"
                   />
                 </div>
-              </div>`;
-
+              </div>
+`;
+      console.log(html);
+      cartItemContainer.innerHTML = html;
     });
     itemsLength.textContent = cart.length;
   }
