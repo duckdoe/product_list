@@ -136,7 +136,7 @@ img {
 }
 
 .empty_cart {
-  display: none;
+  display: flex;
   flex-direction: column;
 }
 
@@ -221,6 +221,10 @@ img {
   font-size: 1.4rem;
   font-weight: 900;
   color: var(--Rose-900);
+}
+
+.full_cart{
+  display: none;
 }
 
 .full_cart button {

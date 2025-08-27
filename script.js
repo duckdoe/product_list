@@ -1,19 +1,28 @@
-// gets the the json from data.json and returns it
-const productsContainer = document.querySelector(".js-product-container");
+window.addEventListener("DOMContentLoaded", () => {
+  let cart = [];
+  async function getData() {
+    try {
+      let data = await fetch("data.json");
+      let dataJson = await data.json();
 
-fetch("./data.json")
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    data.forEach((item) => {
+      return dataJson;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const productContainer = document.querySelector(".js-product-container");
+
+  getData().then((products) => {
+    products.forEach((product) => {
       let html = `<div class="product_container">
                     <div class="product">
                       <img
-                        src="${item.image.desktop}"
+                        src="${product.image.desktop}"
                         alt="waffles"
                         class="product_img"
                       />
-                      <button class="js-add-to-cart-button">
+                      <button class="js-add-to-cart-button" data-id=${product.category}>
                         <img
                           src="assets/images/icon-add-to-cart.svg"
                           alt="Add to cart"
@@ -21,73 +30,69 @@ fetch("./data.json")
                         <span>Add to Cart</span>
                       </button>
                     </div>
-                    <div class="product_category">${item.category}</div>
-                    <div class="product_name">${item.name}</div>
-                    <div class="product_price">$${item.price}</div>
+                    <div class="product_category">${product.category}</div>
+                    <div class="product_name">${product.name}</div>
+                    <div class="product_price">$${product.price}</div>
                   </div>`;
-      productsContainer.innerHTML += html;
+      productContainer.innerHTML += html;
     });
-
-    const addToCartBtn = document.querySelectorAll(".js-add-to-cart-button");
-    const productImage = document.querySelectorAll(".product_img");
-
-    addToCartBtn.forEach((button, index) => {
-      button.addEventListener("click", function (e) {
-        if (e.target == button) {
-          let currentProductImage = productImage[index];
-          if (!button.classList.contains("product-active")) {
-            let count = 0;
-            count += 1;
-            updateCount(count, currentProductImage);
-          }
-        }
+    const addToCartBtn = document.body.querySelectorAll(
+      ".js-add-to-cart-button"
+    );
+    addToCartBtn.forEach((button) => {
+      button.addEventListener("click", () => {
+        cart.push(getProduct(products, button));
+        displayCart();
       });
-
-      const not_added = button.innerHTML;
-      function updateCount(count, currentProductImage = null) {
-        const added = `
-          <img src='assets/images/icon-increment-quantity.svg' class="js-increment small"/>
-          <div id="counter">${count}</div>
-          <img src="assets/images/icon-decrement-quantity.svg" class="js-decrement small"/>
-        `;
-        if (count <= 0) {
-          button.innerHTML = not_added;
-          button.style.borderColor = "var(--Rose-300)";
-          button.style.backgroundColor = "var(--Rose-50)";
-          button.classList.remove("product-active");
-        } else {
-          button.innerHTML = added;
-          button.classList.add("product-active");
-          button.style.backgroundColor = "var(--Red)";
-          button.style.borderColor = "var(--Red)";
-          if (currentProductImage != null) {
-            currentProductImage.style.border = "1px solid hsl(14, 86%, 42%)";
-          }
-          decrement(count);
-          increment(count);
-        }
-
-        function decrement() {
-          const decrementButton = document.querySelectorAll(".js-decrement");
-          decrementButton.forEach((button) => {
-            button.addEventListener("click", () => {
-              count -= 1;
-              updateCount(count);
-            });
-          });
-        }
-
-        function increment() {
-          const incrementButton = document.querySelectorAll(".js-increment");
-          incrementButton.forEach((button) => {
-            button.addEventListener("click", () => {
-              count += 1;
-              updateCount(count);
-            });
-          });
-        }
-
-        return count;
-      }
     });
   });
+
+  function getProduct(products, button) {
+    let productCategory = button.getAttribute("data-id");
+    for (let product of products) {
+      console.log(product)
+      if (product.category === productCategory) return product;
+    }
+    return null;
+  }
+
+  const emptyCart = document.querySelector(".empty_cart");
+  const fullCart = document.querySelector(".full_cart");
+  const itemsLength = document.querySelector(".items_length");
+
+  function displayCart() {
+    if (cart.length > 0) {
+      fullCart.style.display = "block";
+      emptyCart.style.display = "none";
+    } else {
+      emptyCart.style.display = "flex";
+      fullCart.style.display = "none";
+    }
+    let html;
+    cart.forEach((cartItem) => {
+      console.log(cartItem)
+      html += `<div class="cart_item">
+                <div class="cart_item_info">
+                  <div class="cart_item_header">
+                    <span>${cartItem.name}</span>
+                  </div>
+                  <div class="cart_item_price">
+                    <div class="amount">1x</div>
+                    <div class="price">@$${cartItem.price}</div>
+                    <div class="total_price">$5.50</div>
+                  </div>
+                </div>
+                <div class="remove_item">
+                  <img
+                    src="assets/images/icon-remove-item.svg"
+                    alt="remove icon"
+                  />
+                </div>
+              </div>`;
+
+    });
+    itemsLength.textContent = cart.length;
+  }
+
+  displayCart();
+});
