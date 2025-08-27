@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
                         alt="waffles"
                         class="product_img"
                       />
-                      <button class="js-add-to-cart-button" data-id=${product.category}>
+                      <button class="js-add-to-cart-button" data-id=${productID(product)}>
                         <img
                           src="assets/images/icon-add-to-cart.svg"
                           alt="Add to cart"
@@ -41,20 +41,22 @@ window.addEventListener("DOMContentLoaded", () => {
     );
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
-        cart.push(getProduct(products, button));
-        console.log(cart);
+        console.log(button)
+        let product = getProduct(products, button)
+        cart.push(product);
         displayCart();
       });
     });
   });
 
+  function productID(product) {
+    return product.category.split(' ').join('-')
+  }
+
   function getProduct(products, button) {
-    let productCategory = button.getAttribute("data-id");
     for (let product of products) {
-      console.log(product);
-      if (product.category === productCategory) return product;
+      if (product.category.split(' ').join('-') === button.getAttribute("data-id")) return product;
     }
-    return null;
   }
 
   const emptyCart = document.querySelector(".empty_cart");
@@ -70,17 +72,17 @@ window.addEventListener("DOMContentLoaded", () => {
       emptyCart.style.display = "flex";
       fullCart.style.display = "none";
     }
-    let html;
+    let html = '';
     cart.forEach((cartItem) => {
       html += `<div class="cart_item">
                 <div class="cart_item_info">
                   <div class="cart_item_header">
-                    <span>Classic Tiramisu</span>
+                    <span>${cartItem.name}</span>
                   </div>
                   <div class="cart_item_price">
                     <div class="amount">1x</div>
                     <div class="price">@$5.50</div>
-                    <div class="total_price">$5.50</div>
+                    <div class="total_price">$${cartItem.price}</div>
                   </div>
                 </div>
                 <div class="remove_item">
@@ -92,8 +94,8 @@ window.addEventListener("DOMContentLoaded", () => {
               </div>
 `;
       console.log(html);
-      cartItemContainer.innerHTML = html;
     });
+    cartItemContainer.innerHTML = html;
     itemsLength.textContent = cart.length;
   }
 
