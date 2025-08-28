@@ -22,8 +22,9 @@ window.addEventListener("DOMContentLoaded", () => {
                         alt="waffles"
                         class="product_img"
                       />
-                      <button class="js-add-to-cart-button" data-id=${productID(
-                        product
+                      <button class="js-add-to-cart-button" data-id=${getProductProperty(
+                        product,
+                        "category"
                       )}>
                         <img
                           src="assets/images/icon-add-to-cart.svg"
@@ -44,29 +45,36 @@ window.addEventListener("DOMContentLoaded", () => {
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
         let product = getProduct(products, button);
-        if (cart.includes(getProduct(products, button))) {
-          for (item of cart) {
+        let found = false;
+        cart.filter((item) => {
+          if (cart.includes(product) && item === product) {
             item.amount += 1;
-            displayCart()
-            return;
+            found = true;
           }
-        }
-        cart.push(product);
-        for (item of cart) {
-          item.amount = 1;
+        });
+        if (!found) {
+          cart.push(product);
+          for (item of cart) {
+            if (item.amount > 1) continue;
+            item.amount = 1;
+          }
         }
         displayCart();
       });
     });
   });
 
-  function productID(product) {
-    return product.category.split(" ").join("-");
+  function getProductProperty(product, property) {
+    return product[property].split(" ").join("-");
   }
 
   function getProduct(products, button) {
     for (let product of products) {
-      if (productID(product) === button.getAttribute("data-id")) return product;
+      if (
+        getProductProperty(product, "category") ===
+        button.getAttribute("data-id")
+      )
+        return product;
     }
   }
 
@@ -85,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     let totalPrice = 0;
     cart.map((item) => {
-      totalPrice += item.price;
+      totalPrice += item.amount * item.price;
     });
     total.textContent = "$" + totalPrice;
     let html = "";
@@ -112,6 +120,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     cartItemContainer.innerHTML = html;
     itemsLength.textContent = cart.length;
+    const removeIcon = document.querySelectorAll(".remove_item");
+    removeIcon.forEach((icon) => {
+      console.log(icon.parentElement);
+    });
   }
 
   displayCart();
