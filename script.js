@@ -44,6 +44,8 @@ window.addEventListener("DOMContentLoaded", () => {
     );
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
+        let img = button.parentElement.firstChild.nextSibling;
+        img.style.border = '1px solid var(--Red)'
         let product = getProduct(products, button);
         let found = false;
         cart.filter((item) => {
@@ -95,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
     cart.map((item) => {
       totalPrice += item.amount * item.price;
     });
-    total.textContent = "$" + totalPrice;
+    total.textContent = "$" + totalPrice.toFixed(2);
     let html = "";
     cart.forEach((cartItem) => {
       html += `<div class="cart_item">
@@ -130,4 +132,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   displayCart();
+  
 });
+
