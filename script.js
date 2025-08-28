@@ -67,22 +67,22 @@ window.addEventListener("DOMContentLoaded", () => {
         img.style.border = "1px solid var(--Red)";
         button.classList.add("space");
         button.innerHTML = `
-                        <div class="icon_container">
+                        <div class="decrement_icon_container">
                         <img
                         src="assets/images/icon-decrement-quantity.svg"
                         alt="Decrement Icon"
                         class="decrement"
                         /></div>
                         <span id="item_amount_counter" style="color: hsl(0,0%,100%);">1</span>
-                        <div class="icon_container">
+                        <div class="increment_icon_container">
                         <img
                         src="assets/images/icon-increment-quantity.svg"
                         alt="increment Icon"
                         class="increment"
                         /></div>`;
         function decrementIncrementIcons() {
-          const incrementIcon = document.querySelectorAll(".increment");
-          const decrementIcon = document.querySelectorAll(".decrement");
+          const incrementIcon = document.querySelectorAll(".increment_icon_container");
+          const decrementIcon = document.querySelectorAll(".decrement_icon_container");
           const itemAmountCounter = document.querySelectorAll(
             "#item_amount_counter"
           );
@@ -96,7 +96,10 @@ window.addEventListener("DOMContentLoaded", () => {
               let button = incrementIcon[i].parentElement;
               e.stopPropagation();
               cart.map((item) => {
-                if (item.category.split(' ').join('-') == button.parentElement.getAttribute("data-id")) {
+                if (
+                  item.category.split(" ").join("-") ==
+                  button.getAttribute("data-id")
+                ) {
                   item.amount += 1;
                   displayCart();
                 }

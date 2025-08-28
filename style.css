@@ -250,7 +250,7 @@ img {
   z-index: 1;
 }
 
-.product .space{
+.product .space {
   justify-content: space-between;
 }
 
@@ -269,7 +269,7 @@ img {
   border-radius: 50%;
 }
 
-#item_amount_counter{
+#item_amount_counter {
   width: 100%;
   overflow: visible;
   height: 37px;
@@ -278,13 +278,21 @@ img {
   justify-content: center;
 }
 
-.icon_container{
-  width: calc(100% + 20px);
+.increment_icon_container,
+.decrement_icon_container {
+  margin: 0 -12px;
+  width: 100%;
   overflow: visible;
   height: 37px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+}
+
+.increment_icon_container img,
+.decrement_icon_container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (width > 600px) {
