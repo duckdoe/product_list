@@ -65,6 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
         displayCart();
         let img = button.parentElement.firstChild.nextSibling;
         img.style.border = "1px solid var(--Red)";
+        button.style.background = "var(--Red)";
         button.classList.add("space");
         button.innerHTML = `
                         <div class="decrement_icon_container">
@@ -97,12 +98,12 @@ window.addEventListener("DOMContentLoaded", () => {
               return;
             });
             incrementIcon[i].addEventListener("click", (e) => {
-              let button = incrementIcon[i].parentElement;
+              let Button = incrementIcon[i].parentElement;
               e.stopPropagation();
               cart.map((item) => {
                 if (
                   item.category.split(" ").join("-") ==
-                  button.getAttribute("data-id")
+                  Button.getAttribute("data-id")
                 ) {
                   item.amount += 1;
                   displayCart();
@@ -112,11 +113,25 @@ window.addEventListener("DOMContentLoaded", () => {
             });
             decrementIcon[i].addEventListener("click", (e) => {
               e.stopPropagation();
-              let button = decrementIcon[i].parentElement;
+              let Button = decrementIcon[i].parentElement;
               cart.map((item) => {
                 if (
                   item.category.split(" ").join("-") ==
-                  button.getAttribute("data-id")
+                    Button.getAttribute("data-id") &&
+                  item.amount <= 1
+                ) {
+                  Button.innerHTML = `<img
+                        src="assets/images/icon-add-to-cart.svg"
+                        />
+                        <span>Add to cart</span>`;
+                  img.style.border = "none";
+                  Button.style.background = "var(--Rose-50)";
+                  button.classList.remove("space");
+                  cart.splice(item, 1)
+                }
+                if (
+                  item.category.split(" ").join("-") ==
+                  Button.getAttribute("data-id")
                 ) {
                   item.amount -= 1;
                   displayCart();
@@ -127,7 +142,6 @@ window.addEventListener("DOMContentLoaded", () => {
           }
         }
         decrementIncrementIcons();
-        button.style.background = "var(--Red)";
       });
     });
   });
