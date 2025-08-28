@@ -81,67 +81,6 @@ window.addEventListener("DOMContentLoaded", () => {
                         alt="increment Icon"
                         class="increment"
                         /></div>`;
-        function decrementIncrementIcons() {
-          const incrementIcon = document.querySelectorAll(
-            ".increment_icon_container"
-          );
-          const decrementIcon = document.querySelectorAll(
-            ".decrement_icon_container"
-          );
-          const itemAmountCounter = document.querySelectorAll(
-            "#item_amount_counter"
-          );
-
-          for (let i = 0; i < incrementIcon.length; i++) {
-            itemAmountCounter[i].addEventListener("click", (e) => {
-              e.stopPropagation();
-              return;
-            });
-            incrementIcon[i].addEventListener("click", (e) => {
-              let Button = incrementIcon[i].parentElement;
-              e.stopPropagation();
-              cart.map((item) => {
-                if (
-                  item.category.split(" ").join("-") ==
-                  Button.getAttribute("data-id")
-                ) {
-                  item.amount += 1;
-                  displayCart();
-                }
-                itemAmountCounter[i].textContent = item.amount;
-              });
-            });
-            decrementIcon[i].addEventListener("click", (e) => {
-              e.stopPropagation();
-              let Button = decrementIcon[i].parentElement;
-              cart.map((item) => {
-                if (
-                  item.category.split(" ").join("-") ==
-                    Button.getAttribute("data-id") &&
-                  item.amount <= 1
-                ) {
-                  Button.innerHTML = `<img
-                        src="assets/images/icon-add-to-cart.svg"
-                        />
-                        <span>Add to cart</span>`;
-                  img.style.border = "none";
-                  Button.style.background = "var(--Rose-50)";
-                  button.classList.remove("space");
-                  cart.splice(item, 1)
-                }
-                if (
-                  item.category.split(" ").join("-") ==
-                  Button.getAttribute("data-id")
-                ) {
-                  item.amount -= 1;
-                  displayCart();
-                }
-                itemAmountCounter[i].textContent = item.amount;
-              });
-            });
-          }
-        }
-        decrementIncrementIcons();
       });
     });
   });
@@ -175,6 +114,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     let totalPrice = 0;
     cart.map((item) => {
+      
       totalPrice += item.amount * item.price;
     });
     total.textContent = "$" + totalPrice.toFixed(2);
