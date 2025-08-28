@@ -42,7 +42,9 @@ window.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="product_category">${product.category}</div>
                     <div class="product_name">${product.name}</div>
-                    <div class="product_price">$${product.price}</div>
+                    <div class="product_price">$${product.price.toFixed(
+                      2
+                    )}</div>
                   </div>`;
       productContainer.innerHTML += html;
     });
@@ -51,51 +53,8 @@ window.addEventListener("DOMContentLoaded", () => {
     );
     addToCartBtn.forEach((button) => {
       button.addEventListener("click", () => {
-        let img = button.parentElement.firstChild.nextSibling;
-        img.style.border = "1px solid var(--Red)";
-        button.innerHTML = `<img 
-                        src="assets/images/icon-decrement-quantity.svg"
-                        alt="Increment Icon"
-                        class="increment"
-                        />
-                        <span id="item_amount_counter">1</span>
-                        <img
-                        src="assets/images/icon-increment-quantity.svg"
-                        alt="Decrement Icon"
-                        class="decrement"
-                        />`;
-        function decrementIncrementIcons() {
-          const incrementIcon = document.querySelectorAll(".increment");
-          const decrementIcon = document.querySelectorAll(".decrement");
-          const itemAmountCounter = document.querySelectorAll(
-            "#item_amount_counter"
-          );
-
-          for (let i = 0; i < incrementIcon.length; i++) {
-            incrementIcon[i].addEventListener("click", (e) => {
-              console.log("stopped");
-              e.stopPropagation();
-            });
-            itemAmountCounter[i].addEventListener("click", (e) => {
-              e.stopPropagation();
-            });
-
-            decrementIcon[i].addEventListener("click", (e) => {
-              console.log("Fortune");
-              e.stopPropagation();
-            });
-          }
-        }
-        decrementIncrementIcons();
-        button.style.background = "var(--Red)";
         let product = getProduct(products, button);
         let found = false;
-        cart.filter((item) => {
-          if (cart.includes(product) && item === product) {
-            item.amount += 1;
-            found = true;
-          }
-        });
         if (!found) {
           cart.push(product);
           for (item of cart) {
@@ -104,6 +63,60 @@ window.addEventListener("DOMContentLoaded", () => {
           }
         }
         displayCart();
+        let img = button.parentElement.firstChild.nextSibling;
+        img.style.border = "1px solid var(--Red)";
+        button.classList.add("space");
+        button.innerHTML = `
+                        <div class="icon_container">
+                        <img
+                        src="assets/images/icon-decrement-quantity.svg"
+                        alt="Decrement Icon"
+                        class="decrement"
+                        /></div>
+                        <span id="item_amount_counter" style="color: hsl(0,0%,100%);">1</span>
+                        <div class="icon_container">
+                        <img
+                        src="assets/images/icon-increment-quantity.svg"
+                        alt="increment Icon"
+                        class="increment"
+                        /></div>`;
+        function decrementIncrementIcons() {
+          const incrementIcon = document.querySelectorAll(".increment");
+          const decrementIcon = document.querySelectorAll(".decrement");
+          const itemAmountCounter = document.querySelectorAll(
+            "#item_amount_counter"
+          );
+
+          for (let i = 0; i < incrementIcon.length; i++) {
+            itemAmountCounter[i].addEventListener("click", (e) => {
+              e.stopPropagation();
+              return;
+            });
+            incrementIcon[i].addEventListener("click", (e) => {
+              let button = incrementIcon[i].parentElement;
+              e.stopPropagation();
+              cart.map((item) => {
+                if (item.category.split(' ').join('-') == button.parentElement.getAttribute("data-id")) {
+                  item.amount += 1;
+                  displayCart();
+                }
+                itemAmountCounter[i].textContent = item.amount;
+              });
+            });
+            decrementIcon[i].addEventListener("click", (e) => {
+              console.log("Fortune");
+              e.stopPropagation();
+              cart.filter((item) => {
+                if (cart.includes(product) && item === product) {
+                  item.amount -= 1;
+                  found = true;
+                }
+              });
+            });
+          }
+        }
+        decrementIncrementIcons();
+        button.style.background = "var(--Red)";
       });
     });
   });
