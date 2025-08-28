@@ -121,8 +121,11 @@ window.addEventListener("DOMContentLoaded", () => {
     cartItemContainer.innerHTML = html;
     itemsLength.textContent = cart.length;
     const removeIcon = document.querySelectorAll(".remove_item");
-    removeIcon.forEach((icon) => {
-      console.log(icon.parentElement);
+    removeIcon.forEach((icon, index) => {
+      icon.addEventListener('click', () => {
+        cart.splice(index, 1);
+        displayCart()
+      })
     });
   }
 
