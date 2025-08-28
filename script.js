@@ -81,8 +81,12 @@ window.addEventListener("DOMContentLoaded", () => {
                         class="increment"
                         /></div>`;
         function decrementIncrementIcons() {
-          const incrementIcon = document.querySelectorAll(".increment_icon_container");
-          const decrementIcon = document.querySelectorAll(".decrement_icon_container");
+          const incrementIcon = document.querySelectorAll(
+            ".increment_icon_container"
+          );
+          const decrementIcon = document.querySelectorAll(
+            ".decrement_icon_container"
+          );
           const itemAmountCounter = document.querySelectorAll(
             "#item_amount_counter"
           );
@@ -107,13 +111,17 @@ window.addEventListener("DOMContentLoaded", () => {
               });
             });
             decrementIcon[i].addEventListener("click", (e) => {
-              console.log("Fortune");
               e.stopPropagation();
-              cart.filter((item) => {
-                if (cart.includes(product) && item === product) {
+              let button = decrementIcon[i].parentElement;
+              cart.map((item) => {
+                if (
+                  item.category.split(" ").join("-") ==
+                  button.getAttribute("data-id")
+                ) {
                   item.amount -= 1;
-                  found = true;
+                  displayCart();
                 }
+                itemAmountCounter[i].textContent = item.amount;
               });
             });
           }
