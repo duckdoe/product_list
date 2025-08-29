@@ -63,24 +63,6 @@ window.addEventListener("DOMContentLoaded", () => {
           }
         }
         displayCart();
-        let img = button.parentElement.firstChild.nextSibling;
-        img.style.border = "1px solid var(--Red)";
-        button.style.background = "var(--Red)";
-        button.classList.add("space");
-        button.innerHTML = `
-                        <div class="decrement_icon_container">
-                        <img
-                        src="assets/images/icon-decrement-quantity.svg"
-                        alt="Decrement Icon"
-                        class="decrement"
-                        /></div>
-                        <span id="item_amount_counter" style="color: hsl(0,0%,100%);">1</span>
-                        <div class="increment_icon_container">
-                        <img
-                        src="assets/images/icon-increment-quantity.svg"
-                        alt="increment Icon"
-                        class="increment"
-                        /></div>`;
       });
     });
   });
@@ -114,9 +96,96 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     let totalPrice = 0;
     cart.map((item) => {
-      
       totalPrice += item.amount * item.price;
     });
+    cart.map((item) => {
+      const buttons = document.querySelectorAll(".js-add-to-cart-button");
+      for (let button of buttons) {
+        if (
+          button.getAttribute("data-id").split(" ").join("-") ===
+          item.category.split(" ").join("-")
+        ) {
+          let img = button.parentElement.firstChild.nextSibling;
+          img.style.border = "1px solid var(--Red)";
+          button.style.background = "var(--Red)";
+          button.style.border = "1px solid var(--Red)";
+          button.classList.add("space");
+          button.innerHTML = `
+                        <div class="decrement_icon_container">
+                        <img
+                        src="assets/images/icon-decrement-quantity.svg"
+                        alt="Decrement Icon"
+                        class="decrement"
+                        /></div>
+                        <span id="item_amount_counter" style="color: hsl(0,0%,100%);">${item.amount}</span>
+                        <div class="increment_icon_container">
+                        <img
+                        src="assets/images/icon-increment-quantity.svg"
+                        alt="increment Icon"
+                        class="increment"
+                        /></div>`;
+        }
+      }
+    });
+    const decrementButton = document.querySelectorAll(
+      ".decrement_icon_container"
+    );
+    decrementButton.forEach((decrementButton) => {
+      decrementButton.addEventListener("click", (e) => {
+        e.stopImmediatePropagation();
+        let elementId = e.currentTarget.parentElement
+          .getAttribute("data-id")
+          .split(" ")
+          .join("-");
+        cart.map((item, index) => {
+          if (item.category.split(" ").join("-") === elementId) {
+            if (item.amount <= 1) {
+              cart.splice(index, 1);
+              const buttons = document.querySelectorAll(
+                ".js-add-to-cart-button"
+              );
+              for (let button of buttons) {
+                if (
+                  button.getAttribute("data-id").split(" ").join("-") ===
+                  item.category.split(" ").join("-")
+                ) {
+                  let img = button.parentElement.firstChild.nextSibling;
+                  img.style.border = "none";
+                  button.style.background = "var(--Rose-100)";
+                  button.style.border = "1px solid hsl(12, 20%, 72%)";
+                  button.classList.remove("space");
+                  button.innerHTML = ` <img src="assets/images/icon-add-to-cart.svg"/>
+           <span>Add to cart</span>`;
+                }
+              }
+            } else {
+              --item.amount;
+            }
+            displayCart();
+          }
+        });
+      });
+    });
+
+    const incrementButton = document.querySelectorAll(
+      ".increment_icon_container"
+    );
+    incrementButton.forEach((incrementButton) => {
+      incrementButton.addEventListener("click", (e) => {
+        e.stopImmediatePropagation();
+        let elementId = e.currentTarget.parentElement
+          .getAttribute("data-id")
+          .split(" ")
+          .join("-");
+        for (item of cart) {
+          if (item.category.split(" ").join("-") === elementId) {
+            item.amount += 1;
+            displayCart();
+          }
+        }
+      });
+    });
+
     total.textContent = "$" + totalPrice.toFixed(2);
     let html = "";
     cart.forEach((cartItem) => {
@@ -145,6 +214,25 @@ window.addEventListener("DOMContentLoaded", () => {
     const removeIcon = document.querySelectorAll(".remove_item");
     removeIcon.forEach((icon, index) => {
       icon.addEventListener("click", () => {
+        cart.map((item) => {
+          const buttons = document.querySelectorAll(".js-add-to-cart-button");
+          for (let button of buttons) {
+            if (
+              button.getAttribute("data-id").split(" ").join("-") ===
+              item.category.split(" ").join("-")
+            ) {
+              delete item.amount;
+              let img = button.parentElement.firstChild.nextSibling;
+              img.style.border = "none";
+              button.style.background = "var(--Rose-100)";
+              button.style.border = "1px solid hsl(12, 20%, 72%)";
+              button.classList.remove("space");
+              button.innerHTML = ` <img src="assets/images/icon-add-to-cart.svg"/>
+           <span>Add to cart</span>`;
+            }
+          }
+        });
+
         cart.splice(index, 1);
         displayCart();
       });
