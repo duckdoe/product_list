@@ -43,7 +43,6 @@ header {
 .products {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  padding: 0 24px;
   gap: 16px;
 }
 
@@ -397,6 +396,13 @@ img {
 @media (width > 600px) {
   .products {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .modal {
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: max-content;
   }
 }
 
