@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let cart = [];
   async function getData() {
     try {
-      let data = await fetch("/data.json");
+      let data = await fetch("data.json");
       let dataJson = await data.json();
 
       return dataJson;
