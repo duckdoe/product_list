@@ -193,7 +193,10 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
     let html = "";
+    let itemNumber = 0;
     cart.forEach((cartItem) => {
+      itemNumber += cartItem.amount;
+      itemsLength.textContent = itemNumber;
       html += `<div class="cart_item">
                 <div class="cart_item_info">
                   <div class="cart_item_header">
@@ -215,7 +218,6 @@ window.addEventListener("DOMContentLoaded", () => {
 `;
     });
     cartItemContainer.innerHTML = html;
-    itemsLength.textContent = cart.length;
     const removeIcon = document.querySelectorAll(".remove_item");
     removeIcon.forEach((icon, index) => {
       icon.addEventListener("click", () => {

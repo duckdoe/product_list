@@ -27,7 +27,7 @@
       <div class="cart">
         <div class="cart_container">
           <div class="cart_header">
-            <h2>Your Cart (<span class="items_length"></span>)</h2>
+            <h2>Your Cart (<span class="items_length">0</span>)</h2>
           </div>
           <div class="empty_cart">
             <img
@@ -53,6 +53,43 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="modal">
+      <header>
+        <img
+          src="assets/images/icon-order-confirmed.svg"
+          alt="Order Comfirmed"
+        />
+        <h1>Order <br />Comfirmed</h1>
+        <p>We hope you enjoy your food</p>
+      </header>
+      <main>
+        <div class="order">
+          <div class="ordered__item">
+            <div class="ordered_item_details">
+              <img
+                src="assets/images/image-baklava-desktop.jpg"
+                alt="Baklava"
+              />
+              <span>
+                <div class="product_name">Classic Tiramisu</div>
+                <div class="details">
+                  <div class="amount">1x</div>
+                  <div class="price">@5.50</div>
+                </div>
+              </span>
+            </div>
+            <div class="total_price">$5.50</div>
+          </div>
+          <div class="order_total">
+            <div class="title">Oder Total</div>
+            <div class="total">$6.50</div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <button>Start New Order</button>
+      </footer>
     </div>
     <script src="script.js"></script>
   </body>

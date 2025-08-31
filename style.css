@@ -300,13 +300,106 @@ img {
   transform: translate(-50%, -50%);
 }
 
+.modal {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 0 14px;
+  z-index: 10;
+  box-shadow: 0 0 1000px black;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  overflow-y: scroll;
+  display: none;
+  animation: show 0.4s ease-in-out forwards;
+}
+
+@keyframes show {
+  from {
+    bottom: -350px;
+  }
+  to {
+    bottom: 0px;
+  }
+}
+
+.modal header {
+  padding: 0;
+}
+
+.modal header img {
+  width: 40px;
+}
+
+.modal header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.modal header p {
+  font-size: 0.935rem;
+  margin-bottom: 20px;
+}
+
+.modal main .order {
+  background-color: hsl(20, 50%, 98%);
+  padding: 0 20px;
+}
+
+.modal main .order .ordered__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid hsl(14, 25%, 92%);
+  padding: 25px 0;
+}
+.modal main .order .ordered__item .ordered_item_details {
+  display: flex;
+  align-items: center;
+}
+
+.modal main .order .ordered__item .ordered_item_details span .details {
+  display: flex;
+  margin-top: 10px;
+}
+
+.modal main .order .ordered__item .ordered_item_details span .details .amount {
+  margin-right: 20px;
+  font-weight: 700;
+  color: var(--Red);
+}
+
+.modal main .order .ordered__item .ordered_item_details img {
+  width: 75px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.modal main .order .order_total .title {
+  font-size: 1.05rem;
+}
+
+.modal footer button {
+  width: 100%;
+  padding: 15px 0;
+  color: var(--Rose-100);
+  background: var(--Red);
+  border: 0;
+  outline: 0;
+  border-radius: 32px;
+  margin: 20px 0;
+  font-family: "Red Hat Text";
+  font-size: 1.02rem;
+}
+
 @media (width > 600px) {
   .products {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (width > 1440px) {
+@media (width > 1360px) {
   .products {
     grid-template-columns: repeat(3, 1fr);
   }
