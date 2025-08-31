@@ -150,7 +150,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 ) {
                   let img = button.parentElement.firstChild.nextSibling;
                   img.style.border = "none";
-                  button.style.background = "var(--Rose-100)";
+                  button.style.background = "var(--Rose-50)";
                   button.style.border = "1px solid hsl(12, 20%, 72%)";
                   button.classList.remove("space");
                   button.innerHTML = ` <img src="assets/images/icon-add-to-cart.svg"/>
