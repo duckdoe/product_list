@@ -193,6 +193,14 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
     let html = "";
+    const confirmButton = document.querySelector(".full_cart button");
+
+    confirmButton.addEventListener("click", () => {
+      const modal = document.querySelector(".modal");
+      modal.style.display = "block";
+      displayOrder(cart);
+    });
+
     let itemNumber = 0;
     cart.forEach((cartItem) => {
       itemNumber += cartItem.amount;
@@ -204,7 +212,7 @@ window.addEventListener("DOMContentLoaded", () => {
                   </div>
                   <div class="cart_item_price">
                     <div class="amount">${cartItem.amount}x</div>
-                    <div class="price">@$5.50</div>
+                    <div class="price">@${cartItem.price.toFixed(2)}</div>
                     <div class="total_price">$${cartItem.price}</div>
                   </div>
                 </div>
@@ -244,4 +252,37 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
   displayCart();
+  function displayOrder(cart) {
+    const orderContainer = document.querySelector(".modal .order .container");
+    const orderTotal = document.querySelector(
+      ".modal main .order .order_total .total"
+    );
+    let totalOrderPrice = 0;
+    let html = "";
+    cart.forEach((item) => {
+      html += `                     <div class="ordered__item">
+            <div class="ordered_item_details">
+              <img
+                src="${item.image.mobile}"
+                alt="${item.category}"
+              />
+              <span>
+                <div class="product_name">${item.name}</div>
+                <div class="details">
+                  <div class="amount">${item.amount}x</div>
+                  <div class="price">@${item.price.toFixed(2)}</div>
+                </div>
+              </span>
+            </div>
+            <div class="total_price">$${(item.amount * item.price).toFixed(
+              2
+            )}</div>
+          </div>
+
+`;
+      totalOrderPrice += item.amount * item.price;
+    });
+    orderTotal.textContent = "$" + totalOrderPrice.toFixed(2);
+    orderContainer.innerHTML = html;
+  }
 });

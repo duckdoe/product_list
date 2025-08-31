@@ -391,6 +391,7 @@ img {
   margin: 20px 0;
   font-family: "Red Hat Text";
   font-size: 1.02rem;
+  cursor: pointer;
 }
 
 @media (width > 600px) {
