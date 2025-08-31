@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let cart = [];
   async function getData() {
     try {
-      let data = await fetch("data.json");
+      let data = await fetch("/data.json");
       let dataJson = await data.json();
 
       return dataJson;
@@ -12,7 +12,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   const productContainer = document.querySelector(".js-product-container");
-
   getData().then((products) => {
     products.forEach((product) => {
       let html = `<div class="product_container">
@@ -185,8 +184,14 @@ window.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
-
     total.textContent = "$" + totalPrice.toFixed(2);
+    const amountDisplay = document.querySelectorAll(".amount");
+    amountDisplay.forEach((display) => {
+      display.addEventListener("click", (e) => {
+        e.stopPropagation();
+        console.log("Hello");
+      });
+    });
     let html = "";
     cart.forEach((cartItem) => {
       html += `<div class="cart_item">
@@ -221,7 +226,6 @@ window.addEventListener("DOMContentLoaded", () => {
               button.getAttribute("data-id").split(" ").join("-") ===
               item.category.split(" ").join("-")
             ) {
-              delete item.amount;
               let img = button.parentElement.firstChild.nextSibling;
               img.style.border = "none";
               button.style.background = "var(--Rose-100)";
@@ -232,12 +236,10 @@ window.addEventListener("DOMContentLoaded", () => {
             }
           }
         });
-
         cart.splice(index, 1);
         displayCart();
       });
     });
   }
-
   displayCart();
 });
