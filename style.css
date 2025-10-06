@@ -318,6 +318,7 @@ img {
   from {
     bottom: -350px;
   }
+
   to {
     bottom: 0px;
   }
@@ -344,6 +345,8 @@ img {
 .modal main .order {
   background-color: hsl(20, 50%, 98%);
   padding: 0 20px;
+  overflow-y: scroll;
+  max-height: 500px;
 }
 
 .modal main .order .ordered__item {
@@ -353,6 +356,7 @@ img {
   border-bottom: 1px solid hsl(14, 25%, 92%);
   padding: 25px 0;
 }
+
 .modal main .order .ordered__item .ordered_item_details {
   display: flex;
   align-items: center;
@@ -397,6 +401,7 @@ img {
   .products {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .modal {
     width: 400px;
     top: 50%;
@@ -416,6 +421,7 @@ img {
   .main_container {
     display: flex;
   }
+
   .cart_container {
     width: 300px;
     height: max-content;
