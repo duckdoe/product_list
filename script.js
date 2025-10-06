@@ -17,12 +17,10 @@ window.addEventListener("DOMContentLoaded", () => {
       let html = `<div class="product_container">
                     <div class="product">
                     <picture>
-                    <source srcset="${
-                      product.image.mobile
-                    }" media="(width < 768px)"/>
-                    <source srcset="${
-                      product.image.desktop
-                    }" media="(width > 768px)"/>
+                    <source srcset="${product.image.mobile
+        }" media="(width < 768px)"/>
+                    <source srcset="${product.image.desktop
+        }" media="(width > 768px)"/>
                       <img
                         src="${product.image.desktop}"
                         alt="waffles"
@@ -30,9 +28,9 @@ window.addEventListener("DOMContentLoaded", () => {
                       />
                       </picture>
                       <button class="js-add-to-cart-button" data-id=${getProductProperty(
-                        product,
-                        "category"
-                      )}>
+          product,
+          "category"
+        )}>
                         <img
                         src="assets/images/icon-add-to-cart.svg"
                         />
@@ -42,8 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
                     <div class="product_category">${product.category}</div>
                     <div class="product_name">${product.name}</div>
                     <div class="product_price">$${product.price.toFixed(
-                      2
-                    )}</div>
+          2
+        )}</div>
                   </div>`;
       productContainer.innerHTML += html;
     });
@@ -275,8 +273,8 @@ window.addEventListener("DOMContentLoaded", () => {
               </span>
             </div>
             <div class="total_price">$${(item.amount * item.price).toFixed(
-              2
-            )}</div>
+        2
+      )}</div>
           </div>
 
 `;
